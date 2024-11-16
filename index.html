@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Animation Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #e0e5ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 2rem;
+            background: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 
+                20px 20px 60px #bec3c9,
+                -20px -20px 60px #ffffff;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .speed-control {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow: 
+                inset 5px 5px 10px #bec3c9,
+                inset -5px -5px 10px #ffffff;
+        }
+
+        .speed-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2d4059;
+            margin-bottom: 0.5rem;
+        }
+
+        .speed-value {
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            background: #2d4059;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #e0e5ec;
+            box-shadow: 
+                inset 3px 3px 6px #bec3c9,
+                inset -3px -3px 6px #ffffff;
+            outline: none;
+            margin: 0.5rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #2d4059;
+            cursor: pointer;
+            box-shadow: 
+                4px 4px 8px #bec3c9,
+                -4px -4px 8px #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #3d5169;
+            transform: scale(1.1);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow: 
+                inset 5px 5px 10px #bec3c9,
+                inset -5px -5px 10px #ffffff;
+            color: #2d4059;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 
+                inset 8px 8px 15px #bec3c9,
+                inset -8px -8px 15px #ffffff;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: #2d4059;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 
+                5px 5px 10px #bec3c9,
+                -5px -5px 10px #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #3d5169;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 
+                2px 2px 5px #bec3c9,
+                -2px -2px 5px #ffffff;
+        }
+
+        #output {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            min-height: 100px;
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow: 
+                inset 5px 5px 10px #bec3c9,
+                inset -5px -5px 10px #ffffff;
+            font-size: 1.5rem;
+            color: #2d4059;
+            letter-spacing: 1px;
+        }
+
+        .title {
+            text-align: center;
+            color: #2d4059;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            #output {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .container {
+            background: #1a1a1a;
+            box-shadow: 
+                20px 20px 60px #0d0d0d,
+                -20px -20px 60px #272727;
+        }
+
+        body.dark-mode input[type="text"],
+        body.dark-mode #output,
+        body.dark-mode .speed-control {
+            background: #1a1a1a;
+            box-shadow: 
+                inset 5px 5px 10px #0d0d0d,
+                inset -5px -5px 10px #272727;
+            color: #e0e5ec;
+        }
+
+        body.dark-mode .title,
+        body.dark-mode .speed-label {
+            color: #e0e5ec;
+        }
+
+        body.dark-mode input[type="range"] {
+            background: #1a1a1a;
+            box-shadow: 
+                inset 3px 3px 6px #0d0d0d,
+                inset -3px -3px 6px #272727;
+        }
+
+        body.dark-mode input[type="range"]::-webkit-slider-thumb {
+            background: #e0e5ec;
+            box-shadow: 
+                4px 4px 8px #0d0d0d,
+                -4px -4px 8px #272727;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #e0e5ec;
+            box-shadow: 
+                5px 5px 10px #bec3c9,
+                -5px -5px 10px #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .theme-toggle {
+            background: #1a1a1a;
+            box-shadow: 
+                5px 5px 10px #0d0d0d,
+                -5px -5px 10px #272727;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        🌓
+    </div>
+    
+    <div class="container">
+        <h1 class="title">Text Animation Generator</h1>
+        <div class="input-group">
+            <input type="text" id="input-text" placeholder="Enter your text here..." maxlength="50">
+        </div>
+        
+        <div class="speed-control">
+            <div class="speed-label">
+                <span>Animation Speed</span>
+                <span class="speed-value" id="speed-value">Normal</span>
+            </div>
+            <input type="range" id="speed-slider" min="1" max="100" value="50">
+        </div>
+
+        <button onclick="animateText()">Animate Text</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        let animationSpeed = 50;
+        const speedSlider = document.getElementById('speed-slider');
+        const speedValue = document.getElementById('speed-value');
+
+        speedSlider.addEventListener('input', function() {
+            animationSpeed = this.value;
+            updateSpeedLabel(this.value);
+        });
+
+        function updateSpeedLabel(value) {
+            if (value < 20) speedValue.textContent = "Very Slow";
+            else if (value < 40) speedValue.textContent = "Slow";
+            else if (value < 60) speedValue.textContent = "Normal";
+            else if (value < 80) speedValue.textContent = "Fast";
+            else speedValue.textContent = "Very Fast";
+        }
+
+        function sleep(ms) {
+            // Convert slider value to actual milliseconds (inverse relationship)
+            const actualMs = (101 - animationSpeed) * ms / 50;
+            return new Promise(resolve => setTimeout(resolve, actualMs));
+        }
+
+        async function animateText() {
+            const input = document.getElementById('input-text').value;
+            if (!input) return;
+
+            const output = document.getElementById('output');
+            const spaces = ' '.repeat(input.length);
+            let currentText = spaces.split('');
+            
+            // Disable controls during animation
+            document.getElementById('input-text').disabled = true;
+            document.querySelector('button').disabled = true;
+            speedSlider.disabled = true;
+
+            try {
+                for (let i = 0; i < input.length; i++) {
+                    let currentChar = ' ';
+                    while (currentChar.charCodeAt(0) < input.charCodeAt(i)) {
+                        currentChar = String.fromCharCode(currentChar.charCodeAt(0) + 1);
+                        currentText[i] = currentChar;
+                        output.textContent = currentText.join('');
+                        await sleep(10);
+                    }
+                    currentText[i] = input[i];
+                    output.textContent = currentText.join('');
+                }
+            } finally {
+                // Re-enable controls after animation
+                document.getElementById('input-text').disabled = false;
+                document.querySelector('button').disabled = false;
+                speedSlider.disabled = false;
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Add enter key support
+        document.getElementById('input-text').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                animateText();
+            }
+        });
+
+        // Add some nice initial animation
+        document.addEventListener('DOMContentLoaded', async function() {
+            const output = document.getElementById('output');
+            output.textContent = "Type something...";
+            await sleep(1000);
+            output.textContent = "Ready for animation!";
+            updateSpeedLabel(animationSpeed);
+        });
+    </script>
+</body>
+</html>
